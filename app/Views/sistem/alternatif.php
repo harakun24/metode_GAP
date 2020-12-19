@@ -12,7 +12,7 @@
     <div id="div-ubah">
 
         <form id="ubah" method="POST" action="#" class="col-12">
-            <h2 class="mb-3">Tambah data</h2>
+            <h2 class="mb-3">Ubah data</h2>
             <div class="form-group form-group-default">
                 <label>NISN</label>
                 <input name="nis" type="text" class="form-control" placeholder="ex: 03314">
@@ -151,9 +151,11 @@ window.onload = function() {
 }
 
 function tambah() {
+    const ubah = document.getElementById("tambah");
+    const baru = ubah.cloneNode(true);
     swal({
         buttons: false,
-        content: document.getElementById('tambah')
+        content: baru
     })
 }
 

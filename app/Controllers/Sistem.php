@@ -13,8 +13,14 @@ class Sistem extends BaseController
 	}
 	public function index()
 	{
+		$data = [
+			'kriteria' => $this->kriteria->countAll(),
+			'sub' => $this->sub->countAll(),
+			'siswa' => $this->siswa->countAll(),
+			'nilai' => $this->nilai->countAll(),
+		];
 		if ($this->isLogged())
-			return view('sistem/home');
+			return view('sistem/home', $data);
 		else
 			return redirect()->to('/Admin');
 	}
@@ -200,6 +206,12 @@ class Sistem extends BaseController
 
 	public function penilaian()
 	{
+
+		$data = json_decode($this->refresh(), true);
+		return view('sistem/penilaian', $data);
+	}
+	public function refresh()
+	{
 		$data = [
 			'siswa' => $this->siswa->findAll()
 		];
@@ -245,7 +257,7 @@ class Sistem extends BaseController
 			'kriteria' => $this->kriteria->findAll(),
 			'subkriteria' => $this->sub->findAll()
 		];
-		return view('sistem/penilaian', $data);
+		return json_encode($data);
 	}
 
 	public function nilai($sub, $siswa, $nilai)

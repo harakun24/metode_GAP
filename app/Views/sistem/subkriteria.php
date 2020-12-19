@@ -193,9 +193,11 @@ window.onload = function() {
 }
 
 function tambah() {
+    const ubah = document.getElementById("tambah");
+    const baru = ubah.cloneNode(true);
     swal({
         buttons: false,
-        content: document.getElementById('tambah')
+        content: baru
     })
 }
 

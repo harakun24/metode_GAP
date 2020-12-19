@@ -12,7 +12,7 @@
     <div id="div-ubah">
 
         <form id="ubah" method="POST" action="#" class="col-12">
-            <h2 class="mb-3">Tambah data</h2>
+            <h2 class="mb-3">Ubah data</h2>
             <div class="form-group form-group-default">
                 <label>kriteria</label>
                 <input name="nama" type="text" class="form-control" placeholder="ex: Kecerdasan">
@@ -77,6 +77,7 @@
             <table id="add-row" class="table table-striped table-hover dataTable no-footer">
                 <thead>
                     <tr>
+                        <th>Kode</th>
                         <th>Kriteria</th>
                         <th>bobot</th>
                         <th>bobot core</th>
@@ -89,6 +90,7 @@
                     foreach ($kriteria as $k) : ?>
 
                     <tr>
+                        <td>K-<?= $k['id_kriteria']; ?></td>
                         <td><?= $k['nama_kriteria']; ?></td>
                         <td><?= $k['bobot_kriteria']; ?>%</td>
                         <td><?= $k['bobot_core']; ?>%</td>
@@ -160,9 +162,11 @@ window.onload = function() {
 }
 
 function tambah() {
+    const ubah = document.getElementById("tambah");
+    const baru = ubah.cloneNode(true);
     swal({
         buttons: false,
-        content: document.getElementById('tambah')
+        content: baru
     })
 }
 
@@ -171,7 +175,6 @@ function edit(id) {
         .then(res => res.json())
         .then(res => {
             const ubah = document.getElementById("ubah");
-            console.log(ubah);
             const baru = ubah.cloneNode(true);
             let temp = ubah.querySelector("input[name=nama]");
             temp.value = res.nama_kriteria;
