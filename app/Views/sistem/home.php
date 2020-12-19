@@ -50,7 +50,7 @@ a:hover {
                         <a href="<?= route_to('list_alternatif'); ?>"
                             class="px-2 pb-2 pb-md-0 text-center card bg-info text-white col-2">
                             <div class="card-body">
-                                <h2><?= (int)$nilai / (int)$sub; ?></h2>
+                                <h2><?= floor((int)$nilai / (int)$sub); ?></h2>
                                 <h6 class="fw-bold mt-3 mb-0">Nilai</h6>
                             </div>
                         </a>

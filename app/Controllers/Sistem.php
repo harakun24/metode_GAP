@@ -10,6 +10,7 @@ class Sistem extends BaseController
 		$this->kriteria = new \App\Models\kriteriaModel();
 		$this->sub = new \App\Models\subkriteriaModel();
 		$this->nilai = new \App\Models\nilaiModel();
+		$this->ranking = new \App\Models\rankingModel();
 	}
 	public function index()
 	{
@@ -236,6 +237,7 @@ class Sistem extends BaseController
 					]);
 					array_push($res[$s['nama_siswa']], [
 						'sub' => $sk['nama_subkriteria'],
+						'target' => $sk['nilai_target'],
 						'idsub' => $sk['id_subkriteria'],
 						'idsiswa' => $s['id_alternatif'],
 						'nilai' => 0
@@ -243,6 +245,7 @@ class Sistem extends BaseController
 				} else {
 					array_push($res[$s['nama_siswa']], [
 						'sub' => $sk['nama_subkriteria'],
+						'target' => $sk['nilai_target'],
 						'idsub' => $sk['id_subkriteria'],
 						'idk' => $sk['id_kriteria'],
 						'idsiswa' => $s['id_alternatif'],
@@ -276,5 +279,115 @@ class Sistem extends BaseController
 			'id_alternatif' => $siswa,
 		])->first();
 		echo json_encode($n2);
+	}
+
+	public function gap()
+	{
+		$siswa = $this->siswa->findAll();
+		$kriteria = $this->kriteria->findAll();
+		$sub = $this->sub->findAll();
+		$hasil = [];
+		foreach ($siswa as $s) {
+			$tmp = [
+				'siswa' => $s['nama_siswa'],
+				'id' => $s['id_alternatif'],
+				'total' => 0,
+				'kriteria' => []
+			];
+			foreach ($kriteria as $k) {
+				$tmp2 = [
+					'nama' => $k['nama_kriteria'],
+					'bobot' => $k['bobot_kriteria'],
+					'total' => 0,
+					'tipe' => [
+						'core' => [
+							'faktor' => 0,
+							'bobot' => $k['bobot_core'],
+							'list' => []
+						],
+						'secondary' => [
+							'faktor' => 0,
+							'bobot' => $k['bobot_secondary'],
+							'list' => []
+						]
+					]
+				];
+				$faktor = 0;
+				foreach ($sub as $sk) {
+					if ($sk['id_kriteria'] == $k['id_kriteria']) {
+						$nilai = $this->nilai->where([
+							'id_alternatif' => $s['id_alternatif'],
+							'id_subkriteria' => $sk['id_subkriteria']
+						])->first();
+						$hitung = [
+							'nilai' => $nilai['nilai'],
+							'target' => $sk['nilai_target'],
+							'selisih' => $nilai['nilai'] - $sk['nilai_target'],
+							'bobot' => 0
+						];
+						$bobot = 0;
+						switch ($hitung['selisih']) {
+							case 0:
+								$bobot = 5;
+								break;
+							case 1:
+								$bobot = 4.5;
+								break;
+							case -1:
+								$bobot = 4;
+								break;
+							case 2:
+								$bobot = 3.5;
+								break;
+							case -2:
+								$bobot = 3;
+								break;
+							case 3:
+								$bobot = 2.5;
+								break;
+							case -3:
+								$bobot = 2;
+								break;
+							case 4:
+								$bobot = 1.5;
+								break;
+							case -4:
+								$bobot = 1;
+								break;
+						}
+						$faktor += $bobot;
+						$hitung['bobot'] = $bobot;
+						array_push($tmp2['tipe'][$sk['tipe']]['list'], $hitung);
+					}
+				}
+				if (count($tmp2['tipe'][$sk['tipe']]['list']) > 0)
+					$tmp2['tipe'][$sk['tipe']]['faktor'] = $faktor / count($tmp2['tipe'][$sk['tipe']]['list']);
+
+				$tmp2['total'] = $tmp2['tipe']['core']['faktor'] * ($tmp2['tipe']['core']['bobot'] / 100) + $tmp2['tipe']['secondary']['faktor'] * ($tmp2['tipe']['secondary']['bobot'] / 100);
+				array_push($tmp['kriteria'], $tmp2);
+
+				$tmp['total'] += ($tmp2['bobot'] / 100) * $tmp2['total'];
+			}
+			array_push($hasil, $tmp);
+		}
+		$this->ranking->emptyTable();
+		$tmp = [];
+		$data = [];
+		foreach ($hasil as $h) {
+			array_push($tmp, $h['total']);
+		}
+		rsort($tmp);
+		foreach ($tmp as $t) {
+			foreach ($hasil as $h) {
+				if ($t == $h['total']) {
+					array_push($data, $h);
+					$this->ranking->save([
+						'id_alternatif' => $h['id'],
+						'total' => $h['total']
+					]);
+				}
+			}
+		}
+		return view('sistem/ranking', $data);
 	}
 }

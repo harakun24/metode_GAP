@@ -115,13 +115,13 @@
                     ?>
 
                     <tr>
-                        <td><?= '<b>[K-' . $sk['id_kriteria'] . ']</b> ' . $sk['kriteria']; ?></td>
+                        <td><?= '<b class="text-info">[K-' . $sk['id_kriteria'] . ']</b> ' . $sk['kriteria']; ?></td>
                         <td><?= $sk['nama_subkriteria']; ?></td>
                         <td><?= $sk['nilai_target']; ?></td>
                         <td>
                             <div>
                                 <?= $sk['tipe'] . ' '; ?>
-                                <b>
+                                <b class="text-success">
                                     <?= '(' . $sk['bobot'] . '%)'; ?>
                                 </b>
                             </div>
@@ -188,7 +188,7 @@ window.onload = function() {
     })
     <?php endif ?>
     $('#add-row').DataTable({
-        "pageLength": 4,
+        "pageLength": 6,
     });
 }
 
