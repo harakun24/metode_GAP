@@ -129,7 +129,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a data-toggle="collapse" href="#forms">
+                            <a href="Sistem/gap">
                                 <i class="fas fa-chart-bar"></i>
                                 <p>Perankingan</p>
                             </a>
