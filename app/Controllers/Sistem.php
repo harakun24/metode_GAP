@@ -322,6 +322,7 @@ class Sistem extends BaseController
 						$hitung = [
 							'nilai' => $nilai['nilai'],
 							'target' => $sk['nilai_target'],
+							'sub' => $sk['id_subkriteria'],
 							'selisih' => $nilai['nilai'] - $sk['nilai_target'],
 							'bobot' => 0
 						];
@@ -388,6 +389,9 @@ class Sistem extends BaseController
 				}
 			}
 		}
-		return view('sistem/ranking', $data);
+		return view('sistem/ranking', [
+			'data' => $data,
+			'hasil' => $hasil,
+		]);
 	}
 }
