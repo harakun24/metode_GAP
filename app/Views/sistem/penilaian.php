@@ -8,11 +8,11 @@
     overflow-x: scroll;
 }
 
-.table td.fit,
+/* .table td.fit,
 .table th.fit {
     white-space: nowrap;
     width: 1%;
-}
+} */
 </style>
 <div class="row d-flex justify-content-center align-items-center">
     <div class="card col-11 mt-4">
@@ -26,7 +26,7 @@
         </div>
         <div class="card-body card-table mb-2">
 
-            <table id="add-row" class="text-center table no-footer" style="width:1%">
+            <table id="add-row" class="text-center table no-footer" style="width:auto">
                 <thead>
                     <tr>
 
@@ -43,21 +43,26 @@
 
 <!-- tambah data -->
 <script>
-let data = <?= json_encode($prep); ?>;
-console.log(data);
+let data = <?= json_encode($list); ?>;
+const aspek = <?= json_encode($kriteria); ?>;
 window.onload = function() {
     kriteria = document.getElementById("kriteria");
-    kriteria.innerHTML = ` <option value="0">--pilih kriteria--</option>`;
-    for (d of data.kriteria) {
+    kriteria.innerHTML = ` <option value="0">--pilih Aspek--</option>`;
+    for (d of aspek) {
         opt = document.createElement("option");
         opt.value = d.id_kriteria;
-        opt.innerHTML = `<b>[K-${d.id_kriteria}]</b> ` + d.nama_kriteria;
+        opt.innerHTML = d.nama_kriteria;
         kriteria.appendChild(opt);
     }
 }
 
 function pilih(t) {
-    fetch("/Sistem/refresh")
+    let tipe = "";
+    for (a of aspek) {
+        if (a.id_kriteria == t.value)
+            tipe = a.jenis
+    }
+    fetch("/Sistem/refresh2")
         .then(res => res.json())
         .then(res => {
             data = res.prep;
@@ -67,54 +72,57 @@ function pilih(t) {
             tb = table.querySelector("tbody");
             tb.innerHTML = "";
             if (t.value > 0) {
-                th.innerHTML = "<tr><th>Alternatif</th></tr>";
-                for (sk of data.subkriteria) {
-                    if (sk.id_kriteria == t.value) {
-                        tr = th.querySelector("tr");
+                const list = res.list;
+                const header = list[0]['data'];
+                th.querySelector("tr").innerHTML = "<th>Siswa</th>";
+                for (h of header) {
+                    if (t.value == h.k) {
                         head = document.createElement("th");
-                        head.innerHTML = sk.nama_subkriteria + "<br> (" + sk.tipe + ")";
-                        head.setAttribute("class", "fit");
-                        tr.appendChild(head);
+                        head.innerText = h.nama;
+                        th.querySelector("tr").appendChild(head);
                     }
                 }
-                const k = [];
-                for ([key, val] of Object.entries(data.res)) {
+
+                for (l of list) {
                     tr = document.createElement("tr");
-                    if (!k.includes(key)) {
-                        td = document.createElement("td");
-                        td.innerText = key;
-                        tr.appendChild(td);
-                        k.push(key);
-                    }
-                    for (p of val) {
-                        if (p.idk == t.value) {
-                            dat = document.createElement("td");
-                            dat.setAttribute("class", "fit");
-                            input = document.createElement("select");
-                            input.setAttribute("class", "form-control m-2");
-                            input.setAttribute("onchange", `change(${p.idsub},${p.idsiswa},this)`);
-                            for (i = 0; i < 6; i++) {
-                                o = document.createElement("option");
-                                o.value = i;
-                                o.innerText = i;
-                                if (p.nilai == i)
-                                    o.setAttribute("selected", "selected");
-                                input.appendChild(o);
+                    siswa = document.createElement("td");
+                    siswa.setAttribute("class", "text-right");
+                    siswa.innerText = l.siswa;
+                    tr.appendChild(siswa);
+                    for (dat of l.data) {
+                        if (dat.k == t.value) {
+                            td = document.createElement("td");
+                            td.style.minWidth = "120px";
+                            if (tipe == "angka") {
+                                input = document.createElement("input");
+                                input.value = dat.nilai;
+                            } else {
+                                input = document.createElement("select");
+                                input.innerHTML = `
+                                <option value="A"` + (dat.nilai == "A" ? "selected" : "") + `>A</option>
+                                <option value="B"` + (dat.nilai == "B" ? "selected" : "") + `>B</option>
+                                <option value="C"` + (dat.nilai == "C" ? "selected" : "") + `>C</option>
+                                <option value="D"` + (dat.nilai == "D" ? "selected" : "") + `>D</option>
+                                <option value="E"` + (dat.nilai == "E" ? "selected" : "") + `>E</option>
+                                `;
                             }
-                            dat.appendChild(input);
-                            tr.appendChild(dat);
+                            input.setAttribute("class", "form-control my-1");
+                            input.setAttribute("oninput", "change(" + dat.sk + "," + dat.siswa + ",this)");
+                            td.appendChild(input);
+                            tr.appendChild(td);
                         }
                     }
-
                     tb.appendChild(tr);
-
                 }
+
+
             }
         });
 }
 
 function change(sub, siswa, t) {
-    fetch(`/Sistem/nilai/${sub}/${siswa}/${t.value}`)
+    tt = t.value == "" ? 0 : t.value;
+    fetch(`/Sistem/nilai/${sub}/${siswa}/${tt}`)
         .then(res => res.json())
         .then(r => {
             console.log(r);

@@ -57,7 +57,8 @@ $routes->group('Sistem', function ($routes) {
 	$routes->add('subkriteria/hapus/(:num)', 'Sistem::hapus_subkriteria/$1', ['as' => 'del_subkriteria']);
 	$routes->add('subkriteria/batch', 'Sistem::batch_subkriteria', ['as' => 'batch_subkriteria']);
 
-	$routes->add('nilai/(:num)/(:num)/(:num)', 'Sistem::nilai/$1/$2/$3');
+	$routes->add('nilai/(:num)/(:num)/(:any)', 'Sistem::nilai/$1/$2/$3');
+	$routes->add('ranking', 'Sistem::gap2', ['as' => 'ranking']);
 });
 /**
  * --------------------------------------------------------------------

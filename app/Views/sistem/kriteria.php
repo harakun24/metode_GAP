@@ -14,21 +14,30 @@
         <form id="ubah" method="POST" action="#" class="col-12">
             <h2 class="mb-3">Ubah data</h2>
             <div class="form-group form-group-default">
-                <label>kriteria</label>
+                <label>Aspek</label>
                 <input name="nama" type="text" class="form-control" placeholder="ex: Kecerdasan">
             </div>
             <div class="form-group form-group-default">
-                <label>bobot</label>
-                <input name="bobot" type="number" min="1" value="0" class="form-control"
-                    placeholder="ex: Angga ramadhan">
+                <label>Komposisi</label>
+                <input name="bobot" type="number" min="1" value="0" class="form-control">
             </div>
-            <div class="form-group form-group-default">
-                <label>bobot core</label>
-                <input name="core" type="number" min="1" value="0" class="form-control">
+            <div class="col-12 d-flex justify-content-between p-0">
+                <div class="form-group form-group-default col-6">
+                    <label>bobot core (%)</label>
+                    <input name="core" type="number" class="form-control">
+                </div>
+                <div class="form-group form-group-default col-6">
+                    <label>bobot secondary (%)</label>
+                    <input name="secodnary" type="number" class="form-control">
+                </div>
             </div>
+
             <div class="form-group form-group-default">
-                <label>bobot secondary</label>
-                <input name="secodnary" type="number" min="1" value="0" class="form-control">
+                <label>jenis nilai</label>
+                <select name="jenis" id="" class="form-control">
+                    <option value="angka">angka</option>
+                    <option value="huruf">huruf</option>
+                </select>
             </div>
             <div class="form-group mb-3 p-0 d-flex justify-content-end">
                 <input class="btn btn-primary" type="submit" value="simpan">
@@ -39,20 +48,29 @@
     <form id="tambah" method="POST" action="<?= route_to('add_kriteria'); ?>" class="col-12">
         <h2 class="mb-3">Tambah data</h2>
         <div class="form-group form-group-default">
-            <label>kriteria</label>
+            <label>Aspek</label>
             <input name="nama" type="text" class="form-control" placeholder="ex: Kecerdasan">
         </div>
         <div class="form-group form-group-default">
-            <label>bobot</label>
-            <input name="bobot" type="number" class="form-control" placeholder="ex: Angga ramadhan">
+            <label>komposisi (%)</label>
+            <input name="bobot" type="number" class="form-control">
+        </div>
+        <div class="col-12 d-flex justify-content-between p-0">
+            <div class="form-group form-group-default col-6">
+                <label>bobot core (%)</label>
+                <input name="core" type="number" class="form-control">
+            </div>
+            <div class="form-group form-group-default col-6">
+                <label>bobot secondary (%)</label>
+                <input name="secodnary" type="number" class="form-control">
+            </div>
         </div>
         <div class="form-group form-group-default">
-            <label>bobot core</label>
-            <input name="core" type="number" class="form-control">
-        </div>
-        <div class="form-group form-group-default">
-            <label>bobot secondary</label>
-            <input name="secodnary" type="number" class="form-control">
+            <label>jenis nilai</label>
+            <select name="jenis" id="" class="form-control">
+                <option value="angka">angka</option>
+                <option value="huruf">huruf</option>
+            </select>
         </div>
 
         <div class="form-group mb-3 p-0 d-flex justify-content-end">
@@ -63,7 +81,7 @@
 <div class="row d-flex justify-content-center align-items-center">
     <div class="card col-11 mt-4">
         <div class="card-header d-flex justify-content-between">
-            <h2>Kriteria</h2>
+            <h2>Aspek</h2>
             <div style="font-size: 80%;">
                 <button onclick="tambah()" class="btn m-1 btn-primary btn-rounded">
                     Tambah data &nbsp;<i class="fa fa-plus"></i>
@@ -74,12 +92,11 @@
         </div>
         <div class="card-body card-table mb-2">
 
-            <table id="add-row" class="table table-striped table-hover dataTable no-footer">
+            <table id="add-row" class="text-center table table-striped table-hover dataTable no-footer">
                 <thead>
                     <tr>
-                        <th>Kode</th>
-                        <th>Kriteria</th>
-                        <th>bobot</th>
+                        <th>Aspek</th>
+                        <th>Komposisi</th>
                         <th>bobot core</th>
                         <th>bobot secondary</th>
                         <th>Aksi</th>
@@ -90,7 +107,6 @@
                     foreach ($kriteria as $k) : ?>
 
                     <tr>
-                        <td>K-<?= $k['id_kriteria']; ?></td>
                         <td><?= $k['nama_kriteria']; ?></td>
                         <td><?= $k['bobot_kriteria']; ?>%</td>
                         <td><?= $k['bobot_core']; ?>%</td>
@@ -184,6 +200,9 @@ function edit(id) {
             temp.value = res.bobot_core;
             temp = ubah.querySelector("input[name=secodnary]")
             temp.value = res.bobot_secondary;
+            temp = ubah.querySelector("select[name=jenis]")
+            console.log(res)
+            temp.selectedIndex = res.jenis == "angka" ? 0 : 1;
             ubah.setAttribute("action", "/Sistem/kriteria/ubah/" + id)
             swal({
                 buttons: false,

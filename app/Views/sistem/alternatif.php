@@ -59,7 +59,7 @@
 <div class="row d-flex justify-content-center align-items-center">
     <div class="card col-11 mt-4">
         <div class="card-header d-flex justify-content-between">
-            <h2>Alternatif</h2>
+            <h2>Siswa</h2>
             <div>
                 <button onclick="tambah()" class="btn m-1 btn-primary btn-rounded">
                     Tambah data &nbsp;<i class="fa fa-plus"></i>

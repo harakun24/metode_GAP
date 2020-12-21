@@ -13,6 +13,7 @@ class kriteriaModel extends Model
         'nama_kriteria',
         'bobot_kriteria',
         'bobot_core',
+        'jenis',
         'bobot_secondary',
     ];
 }

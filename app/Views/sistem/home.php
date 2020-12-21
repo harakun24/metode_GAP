@@ -28,7 +28,7 @@ a:hover {
                             class="px-2 pb-2 pb-md-0 text-center card bg-danger text-white col-2">
                             <div class="card-body">
                                 <h2><?= $kriteria; ?></h2>
-                                <h6 class="fw-bold mt-3 mb-0">Kriteria</h6>
+                                <h6 class="fw-bold mt-3 mb-0">ASPEK</h6>
                             </div>
                         </a>
 
@@ -36,7 +36,7 @@ a:hover {
                             class="px-2 pb-2 pb-md-0 text-center card bg-warning text-white col-2">
                             <div class="card-body">
                                 <h2><?= $sub; ?></h2>
-                                <h6 class="fw-bold mt-3 mb-0">Sub kriteria</h6>
+                                <h6 class="fw-bold mt-3 mb-0">KRITERIA</h6>
                             </div>
                         </a>
 
@@ -44,14 +44,13 @@ a:hover {
                             class="px-2 pb-2 pb-md-0 text-center card bg-success text-white col-2">
                             <div class="card-body">
                                 <h2><?= $siswa; ?></h2>
-                                <h6 class="fw-bold mt-3 mb-0">Alternatif</h6>
+                                <h6 class="fw-bold mt-3 mb-0">SISWA</h6>
                             </div>
                         </a>
-                        <a href="<?= route_to('list_alternatif'); ?>"
-                            class="px-2 pb-2 pb-md-0 text-center card bg-info text-white col-2">
+                        <a href="Sistem/penilaian" class="px-2 pb-2 pb-md-0 text-center card bg-info text-white col-2">
                             <div class="card-body">
-                                <h2><?= floor((int)$nilai / (int)$sub); ?></h2>
-                                <h6 class="fw-bold mt-3 mb-0">Nilai</h6>
+                                <h2><?= $nilai; ?></h2>
+                                <h6 class="fw-bold mt-3 mb-0">NILAI</h6>
                             </div>
                         </a>
 

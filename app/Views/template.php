@@ -105,18 +105,18 @@
                                 <ul class="nav nav-collapse">
                                     <li>
                                         <a href="<?= route_to('list_kriteria'); ?>">
-                                            <span class="sub-item">Kriteria</span>
+                                            <span class="sub-item">Aspek</span>
                                         </a>
                                     </li>
                                     <li>
                                         <a href="<?= route_to('list_subkriteria'); ?>">
-                                            <span class="sub-item">Subkriteria</span>
+                                            <span class="sub-item">Kriteria</span>
                                         </a>
                                     </li>
 
                                     <li>
                                         <a href="<?= route_to('list_alternatif'); ?>">
-                                            <span class="sub-item">Alternatif</span>
+                                            <span class="sub-item">Siswa</span>
                                         </a>
                                     </li>
                                 </ul>
@@ -129,7 +129,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="Sistem/gap">
+                            <a href="<?= route_to('ranking'); ?>">
                                 <i class="fas fa-chart-bar"></i>
                                 <p>Perankingan</p>
                             </a>

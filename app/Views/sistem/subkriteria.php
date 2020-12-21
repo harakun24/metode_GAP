@@ -14,7 +14,7 @@
         <form id="ubah" method="POST" action="#" class="col-12">
             <h2 class="mb-3">Edit data</h2>
             <div class="form-group form-group-default">
-                <label>Kriteria</label>
+                <label>Aspek</label>
                 <select name="kriteria" class="form-control">
                     <?php foreach ($kriteria as $k) : ?>
                     <option value="<?= $k['id_kriteria']; ?>"><?= $k['nama_kriteria']; ?></option>
@@ -22,18 +22,12 @@
                 </select>
             </div>
             <div class="form-group form-group-default">
-                <label>subkriteria</label>
+                <label>Kriteria</label>
                 <input name="sub" type="text" class="form-control">
             </div>
             <div class="form-group form-group-default">
-                <label>nilai target</label>
-                <select name="bobot" class="form-control">
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                </select>
+                <label>profil ideal</label>
+                <input type="text" name="bobot" class="form-control">
             </div>
             <div class="form-group form-group-default">
                 <label>tipe</label>
@@ -51,7 +45,7 @@
     <form id="tambah" method="POST" action="<?= route_to('add_subkriteria'); ?>" class="col-12">
         <h2 class="mb-3">Tambah data</h2>
         <div class="form-group form-group-default">
-            <label>Kriteria</label>
+            <label>Aspek</label>
             <select name="kriteria" class="form-control">
                 <?php foreach ($kriteria as $k) : ?>
                 <option value="<?= $k['id_kriteria']; ?>"><?= $k['nama_kriteria']; ?></option>
@@ -59,18 +53,12 @@
             </select>
         </div>
         <div class="form-group form-group-default">
-            <label>subkriteria</label>
+            <label>Kriteria</label>
             <input name="sub" type="text" class="form-control">
         </div>
         <div class="form-group form-group-default">
-            <label>nilai target</label>
-            <select name="bobot" class="form-control">
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-            </select>
+            <label>profil ideal</label>
+            <input type="text" name="bobot" class="form-control">
         </div>
         <div class="form-group form-group-default">
             <label>tipe</label>
@@ -88,7 +76,7 @@
 <div class="row d-flex justify-content-center align-items-center">
     <div class="card col-11 mt-4">
         <div class="card-header d-flex justify-content-between">
-            <h2>Subkriteria</h2>
+            <h2>Kriteria</h2>
             <div style="font-size: 80%;">
                 <button onclick="tambah()" class="btn m-1 btn-primary btn-rounded">
                     Tambah data &nbsp;<i class="fa fa-plus"></i>
@@ -102,9 +90,9 @@
             <table id="add-row" class="table table-striped table-hover dataTable no-footer">
                 <thead>
                     <tr>
+                        <th>Aspek</th>
                         <th>Kriteria</th>
-                        <th>Nama Subkriteria</th>
-                        <th>Nilai target</th>
+                        <th>Profil ideal</th>
                         <th>jenis</th>
                         <th>Aksi</th>
                     </tr>
@@ -115,15 +103,12 @@
                     ?>
 
                     <tr>
-                        <td><?= '<b class="text-info">[K-' . $sk['id_kriteria'] . ']</b> ' . $sk['kriteria']; ?></td>
+                        <td><?= '<b class="text-info">[A-' . $sk['id_kriteria'] . ']</b> ' . $sk['kriteria']; ?></td>
                         <td><?= $sk['nama_subkriteria']; ?></td>
                         <td><?= $sk['nilai_target']; ?></td>
                         <td>
                             <div>
                                 <?= $sk['tipe'] . ' '; ?>
-                                <b class="text-success">
-                                    <?= '(' . $sk['bobot'] . '%)'; ?>
-                                </b>
                             </div>
                         </td>
                         <td class="text-center">
@@ -188,7 +173,7 @@ window.onload = function() {
     })
     <?php endif ?>
     $('#add-row').DataTable({
-        "pageLength": 6,
+        "pageLength": 16,
     });
 }
 
@@ -218,12 +203,8 @@ function edit(id) {
             temp = ubah.querySelector("input[name=sub]");
             temp.value = res.nama_subkriteria;
 
-            temp = ubah.querySelector("select[name=bobot]");
-            opt = temp.querySelectorAll("option");
-            for (o of opt) {
-                if (o.value == res.nilai_target)
-                    o.setAttribute("selected", "selected");
-            }
+            temp = ubah.querySelector("input[name=bobot]");
+            temp.value = res.nilai_target;
 
             temp = ubah.querySelector("select[name=tipe]");
             opt = temp.querySelectorAll("option");
