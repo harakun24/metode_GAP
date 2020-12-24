@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <title>SPK | Administrator</title>
     <meta content='width=device-width, initial-scale=1.0, shrink-to-fit=no' name='viewport' />
-    <link rel="icon" href="/assets/img/icon.ico" type="image/x-icon" />
+    <link rel="icon" href="/berau.png" type="image/x-icon" />
 
     <!-- Fonts and icons -->
     <script src="/assets/js/plugin/webfont/webfont.min.js"></script>
@@ -40,7 +40,15 @@
         <div class="main-header">
             <div class="logo-header bg-dark">
 
-                <a class="logo">
+                <a class="logo d-flex">
+                    <!-- <img src="/assets/img/" alt="navbar brand" class="navbar-brand"> -->
+                    <img src="/berau.png" height="90%" alt="navbar brand" class="navbar-brand">
+                    <div class="ml-1 text-white d-flex flex-column mt-1">
+                        <p><span class="d-lg-none">SMA</span> MUHAMMADIYAH
+                            <br>
+                            BERAU
+                        </p>
+                    </div>
                 </a>
                 <button class="navbar-toggler sidenav-toggler ml-auto" type="button" data-toggle="collapse"
                     data-target="collapse" aria-expanded="false" aria-label="Toggle navigation">

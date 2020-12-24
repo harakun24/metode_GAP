@@ -13,6 +13,26 @@
     white-space: nowrap;
     width: 1%;
 } */
+.alert-success {
+    color: #155724;
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+}
+
+.alert {
+    position: relative;
+    padding: .75rem 1.25rem;
+    margin-bottom: 1rem;
+    border: 1px solid transparent;
+    border-radius: .25rem;
+    box-shadow: 0px 0px 0px black !important;
+}
+
+#alert {
+    right: 5%;
+    opacity: 0;
+    transition: .5s;
+}
 </style>
 <div class="row d-flex justify-content-center align-items-center">
     <div class="card col-11 mt-4">
@@ -22,6 +42,11 @@
                 <select onchange="pilih(this)" id="kriteria" class="form-control">
                     <option value="0">--memuat data--</option>
                 </select>
+            </div>
+            <div class="position-absolute m-auto" id="alert">
+                <div class="alert alert-success" role="alert">
+                    <i class="fa fa-check-circle"></i> Perubahan berhasil disimpan
+                </div>
             </div>
         </div>
         <div class="card-body card-table mb-2">
@@ -125,7 +150,11 @@ function change(sub, siswa, t) {
     fetch(`/Sistem/nilai/${sub}/${siswa}/${tt}`)
         .then(res => res.json())
         .then(r => {
-            console.log(r);
+            $("#alert").css("opacity", 1);
+            setTimeout(function() {
+                $("#alert").css("opacity", 0);
+
+            }, 5000);
         });
 }
 </script>
