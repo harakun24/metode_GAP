@@ -13,6 +13,10 @@
     white-space: nowrap;
     width: 1%;
 } */
+.col-12 {
+    overflow-x: scroll;
+}
+
 .bg-success {
     background: #7bea7f !important;
 }
@@ -34,16 +38,19 @@
 
             <div class="card">
                 <div class="card-header bg-success-gradient toggleHide" style="cursor:pointer">
-                    <h3 class="text-white d-flex justify-content-between align-items-center">Pembobotan Kriteria <i
-                            class="fa fa-caret-down text-white"></i></h3>
+                    <h3 class="text-white d-flex justify-content-between align-items-center">
+                        Pembobotan Kriteria
+                        <i class="fa fa-caret-down text-white"></i>
+                    </h3>
 
                 </div>
                 <div class="card-body">
+                    <button class="btn btn-sm btn-white print"><i class="fa fa-print mr-1"></i> Cetak</button>
                     <?php
                     $header = $hasil[0];
                     foreach ($header['aspek'] as $a) : ?>
                     <h4 class="mt-2"><?= $a['nama']; ?></h4>
-                    <div class="col-12" style="overflow-x: scroll;">
+                    <div class="col-12">
 
                         <table class="table-bordered table" style="width: auto;">
                             <thead class="thead-light">
@@ -99,11 +106,13 @@
 
                 </div>
                 <div class="card-body">
+                    <button class="btn btn-sm btn-white print"><i class="fa fa-print mr-1"></i> Cetak</button>
+
                     <?php
                     $header = $hasil[0];
                     foreach ($header['aspek'] as $a) : ?>
                     <h4 class="mt-2"><?= $a['nama']; ?></h4>
-                    <div class="col-12" style="overflow-x: scroll;">
+                    <div class="col-12">
 
                         <table class="table-bordered table" style="width: auto;">
                             <thead class="thead-light">
@@ -171,11 +180,13 @@
 
                 </div>
                 <div class="card-body">
+                    <button class="btn btn-sm btn-white print"><i class="fa fa-print mr-1"></i> Cetak</button>
+
                     <?php
                     $header = $hasil[0];
                     foreach ($header['aspek'] as $a) : ?>
                     <h4 class="mt-2"><?= $a['nama']; ?></h4>
-                    <div class="col-12" style="overflow-x: scroll;">
+                    <div class="col-12">
 
                         <table class="table-bordered table" style="width: auto;">
                             <thead class="thead-light">
@@ -217,7 +228,8 @@
                 <div class="card-header bg-primary-gradient text-white">
                     <h3>Hasil Akhir</h3>
                 </div>
-                <div class="card-body col-12" style="overflow-x: scroll;">
+                <div class="card-body col-12">
+                    <button class="btn btn-sm btn-white print mb-3"><i class="fa fa-print mr-1"></i> Cetak</button>
                     <table class="table table-bordered">
                         <thead>
                             <th>Siswa</th>
@@ -264,6 +276,21 @@ window.onload = function() {
         $(this).next().css("display", $state == "none" ? "block" : "none");
     })
     $(".toggleHide").click();
+    $(".print").click(function() {
+        let parent = $(this).parent().clone();
+        parent.find('.print').remove();
+        parent = parent.html()
+        console.log(parent)
+        // console.log(parent.html())
+        window.open().document.body.innerHTML = `
+        <style>
+            table,tr,td,th{
+                border-collapse: collapse;
+                border:1px solid black;
+                }
+        </style>
+        ` + parent
+    })
 }
 </script>
 <?= $this->endSection() ?>
