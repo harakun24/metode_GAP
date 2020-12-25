@@ -287,6 +287,7 @@ window.onload = function() {
             table,tr,td,th{
                 border-collapse: collapse;
                 border:1px solid black;
+                text-align:center;
                 }
         </style>
         ` + parent
